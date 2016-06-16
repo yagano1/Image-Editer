@@ -1,31 +1,23 @@
 package editer.minhnhan.in.imageediter;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-
-
-
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by linh on 6/15/2016.
  */
 public class ImageListAdapter extends BaseAdapter {
-
 
     /**
      * Instantiates a new image adapter.
@@ -35,7 +27,10 @@ public class ImageListAdapter extends BaseAdapter {
      */
     private ArrayList<String> images;
     private Context mContext;
-    private final List<String> urls = new ArrayList<String>();
+    public ImageListAdapter(Context context,ArrayList<String> listImage) {
+        mContext = context;
+        images = listImage;
+    }
 
     private ArrayList<String> getAllShownImagesPath( ) {
         Uri uri;
@@ -62,12 +57,6 @@ public class ImageListAdapter extends BaseAdapter {
 
 
 
-    public ImageListAdapter(Context context) {
-        mContext = context;
-        images = getAllShownImagesPath();
-
-    }
-
 
 
     @Override
@@ -93,13 +82,12 @@ public class ImageListAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-
         Picasso.with(mContext)
                 .load(new File(images.get(position)))
-                .noFade().resize(300, 300)
+                .noFade()
+                .resize(300, 300)
                 .centerCrop()
                 .into(imageView);
-
         return imageView;
 
     }
