@@ -32,32 +32,6 @@ public class ImageListAdapter extends BaseAdapter {
         images = listImage;
     }
 
-    private ArrayList<String> getAllShownImagesPath( ) {
-        Uri uri;
-        Cursor cursor;
-        int column_index_data;
-        ArrayList<String> listOfAllImages = new ArrayList<String>();
-        String absolutePathOfImage = null;
-        uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-
-        String[] projection = {MediaStore.MediaColumns.DATA,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
-
-        cursor = mContext.getContentResolver().query(uri, projection, null,
-                null, null);
-        column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-
-        while (cursor.moveToNext()) {
-            absolutePathOfImage = cursor.getString(column_index_data);
-            listOfAllImages.add(absolutePathOfImage);
-        }
-        return listOfAllImages;
-
-    }
-
-
-
-
 
     @Override
     public int getCount() {

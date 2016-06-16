@@ -12,7 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -22,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditImage">
-
         </activity>
     </application>
 
