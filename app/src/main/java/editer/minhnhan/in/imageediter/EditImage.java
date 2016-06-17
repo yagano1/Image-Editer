@@ -1,7 +1,6 @@
 package editer.minhnhan.in.imageediter;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +12,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.squareup.picasso.Picasso;
-
-import junit.framework.Test;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by linh on 6/15/2016.
