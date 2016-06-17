@@ -6,16 +6,10 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
 
@@ -48,11 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         GridView gridView = (GridView) findViewById(R.id.gridview);
         images = getAllShownImagesPath();
-        float xdpi = this.getResources().getDisplayMetrics().xdpi;
-        int mKeyHeight = (int) ( xdpi/4 );
-        gridView.setColumnWidth( mKeyHeight );
-
-        gridView.setAdapter(new ImageListAdapter(this,images,xdpi));
+        gridView.setAdapter(new ImageListAdapter(this,images));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

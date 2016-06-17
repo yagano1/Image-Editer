@@ -28,11 +28,12 @@ public class ImageListAdapter extends BaseAdapter {
      */
     private ArrayList<String> images;
     private Context mContext;
-    float xdpi;
-    public ImageListAdapter(Context context,ArrayList<String> listImage,float xdpi) {
+
+    public ImageListAdapter(Context context,ArrayList<String> listImage) {
         mContext = context;
         images = listImage;
-        this.xdpi =  xdpi;
+
+
     }
 
 
@@ -54,22 +55,23 @@ public class ImageListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
-
-
         if (convertView == null) {
             imageView = new ImageView(mContext);
         } else {
             imageView = (ImageView) convertView;
         }
-        int size = (int) (xdpi - 4/2);
         imageView.setScaleType( ImageView.ScaleType.CENTER_CROP );
         imageView.setPadding(1, 1, 1, 1);
-        Picasso.with(mContext)
-                .load(new File(images.get(position)))
-                .noFade()
-                .resize(250 , 250)
-                .centerCrop()
-                .into(imageView);
+
+            Picasso.with(mContext)
+                    .load(new File(images.get(position)))
+                    .noFade()
+                    .resize(250 , 250)
+                    .centerCrop()
+                    .into(imageView);
+
+
+
         return imageView;
 
     }
