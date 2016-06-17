@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -46,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         GridView gridView = (GridView) findViewById(R.id.gridview);
         images = getAllShownImagesPath();
-        gridView.setAdapter(new ImageListAdapter(this,images));
+        float xdpi = this.getResources().getDisplayMetrics().xdpi;
+        int mKeyHeight = (int) ( xdpi/4 );
+        gridView.setColumnWidth( mKeyHeight );
 
+        gridView.setAdapter(new ImageListAdapter(this,images,xdpi));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
     }
 

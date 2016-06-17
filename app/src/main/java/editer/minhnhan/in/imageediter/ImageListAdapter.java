@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -27,9 +28,11 @@ public class ImageListAdapter extends BaseAdapter {
      */
     private ArrayList<String> images;
     private Context mContext;
-    public ImageListAdapter(Context context,ArrayList<String> listImage) {
+    float xdpi;
+    public ImageListAdapter(Context context,ArrayList<String> listImage,float xdpi) {
         mContext = context;
         images = listImage;
+        this.xdpi =  xdpi;
     }
 
 
@@ -51,15 +54,20 @@ public class ImageListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
+
+
         if (convertView == null) {
             imageView = new ImageView(mContext);
         } else {
             imageView = (ImageView) convertView;
         }
+        int size = (int) (xdpi - 4/2);
+        imageView.setScaleType( ImageView.ScaleType.CENTER_CROP );
+        imageView.setPadding(1, 1, 1, 1);
         Picasso.with(mContext)
                 .load(new File(images.get(position)))
                 .noFade()
-                .resize(300, 300)
+                .resize(250 , 250)
                 .centerCrop()
                 .into(imageView);
         return imageView;
