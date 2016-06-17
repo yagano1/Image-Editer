@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
@@ -60,20 +63,21 @@ public class ImageListAdapter extends BaseAdapter {
 
         if(images.get(position).equals("abcdef"))
         {
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(R.drawable.camera)
-                    .noFade()
-                    .resize(250 , 250)
                     .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(250,250)
                     .into(imageView);
         }
 
         else {
-            Picasso.with(mContext)
-                    .load(new File(images.get(position)))
-                    .noFade()
-                    .resize(250 , 250)
+
+            Glide.with(mContext)
+                    .load(images.get(position))
                     .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(250,250)
                     .into(imageView);
         }
 

@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import junit.framework.Test;
@@ -29,14 +31,13 @@ public class EditImage extends AppCompatActivity  {
         setContentView(R.layout.edit_image);
         imageView = (ImageView) findViewById(R.id.imageView);
        String imgSrc = getIntent().getStringExtra("img");
-        Uri uri = Uri.fromFile(new File(imgSrc));
-        Picasso.with(EditImage.this)
-                    .load(uri)
-                    .noFade()
-                    .resize(1000, 1000)
-                    .centerCrop()
-                    .into(imageView);
-        imageView.setOnTouchListener(new View.OnTouchListener() {
+
+        Glide.with(EditImage.this)
+                .load(imgSrc)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(1000,1000)
+                .into(imageView);imageView.setOnTouchListener(new View.OnTouchListener() {
             private GestureDetector gestureDetector = new GestureDetector(EditImage.this, new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
