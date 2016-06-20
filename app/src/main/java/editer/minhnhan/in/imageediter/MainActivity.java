@@ -2,9 +2,11 @@ package editer.minhnhan.in.imageediter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,6 +16,9 @@ import android.widget.GridView;
 import android.widget.Spinner;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
     public ArrayList<String> images = new ArrayList<String>();;
@@ -28,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getListAlbum(path);
+        searchImageFromSpecificDirectory();
         gridView = (GridView) findViewById(R.id.gridview);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,12 +59,16 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0)
                 {
-                    getListImage(path);
+//                    getListImage(path);
+
+                    searchImageFromSpecificDirectory();
                     gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
                 }
                 else {
-                    getListImage(path + "/" + dropdown.getItemAtPosition(position));
-
+//                    getListImage(path + "/" + dropdown.getItemAtPosition(position));
+//
+//                    gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
+                    searchImageFromSpecificDirectory();
                     gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
                 }
             }
@@ -82,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 album.add(inFile.getName());
             }
         }
-
     }
 
     @Override
@@ -99,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
         images.clear();
         File f = new File(path);
         File[] files = f.listFiles();
+        Arrays.sort(files, new Comparator<File>(){
+            public int compare(File f1, File f2)
+            {
+                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+            } });
         for (File inFile : files) {
             if (inFile.isDirectory()) {
             }
@@ -108,6 +121,43 @@ public class MainActivity extends AppCompatActivity {
         }
         Uri uri = Uri.parse("android.resource://editer.minhnhan.in.imageediter/drawable/camera");
         images.add(uri.toString());
+    }
+
+
+    public void searchImageFromSpecificDirectory() {
+       images.clear();
+        String path = null;
+        String uri = MediaStore.Images.Media.DATA;
+        String condition = uri + " like '%/storage/%'";
+        String[] projection = { uri, MediaStore.Images.Media.DATE_MODIFIED};
+        String orderBy = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+        Vector additionalFiles = null;
+        try {
+            if (additionalFiles == null) {
+                additionalFiles = new Vector<String>();
+            }
+            Cursor cursor = managedQuery(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
+                    condition, null, orderBy);
+            if (cursor != null) {
+                boolean isDataPresent = cursor.moveToFirst();
+
+                if (isDataPresent) {
+                    do {
+
+                        images.add(cursor.getString(cursor.getColumnIndex(uri)));
+                        additionalFiles.add(path);
+                    }while(cursor.moveToNext());
+                     }
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Uri uri1 = Uri.parse("android.resource://editer.minhnhan.in.imageediter/drawable/camera");
+        images.add(uri1.toString());
     }
 }
 
