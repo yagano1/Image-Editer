@@ -10,10 +10,9 @@
         android:paddingTop="1dip"
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:numColumns="4"
         android:verticalSpacing="2dp"
         android:horizontalSpacing="2dp"
-        android:gravity="center"
-        />
+        android:gravity="center" />
 </LinearLayout>
