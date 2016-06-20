@@ -49,26 +49,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         final Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, album);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0)
-                {
-                    searchImageFromSpecificDirectory("storage");
-                    gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
+                switch (position) {
+                    case 0:
+                        searchImageFromSpecificDirectory("storage");
+                        break;
+                    case 1:
+                        searchImageFromSpecificDirectory("pictures");
+                        break;
+                    default:
+                        searchImageFromSpecificDirectory(dropdown.getItemAtPosition(position).toString());
+                        break;
                 }
-                else {
-
-                    searchImageFromSpecificDirectory(dropdown.getItemAtPosition(position).toString());
-                    gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
-                }
+                gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getListAlbum(String path) {
         album.clear();
+        album.add("All");
         album.add("Pictures");
         File f = new File(path);
         File[] files = f.listFiles();
@@ -115,14 +119,14 @@ public class MainActivity extends AppCompatActivity {
                     condition, null, orderBy);
             if (cursor != null) {
                 boolean isDataPresent = cursor.moveToFirst();
-
                 if (isDataPresent) {
                     do {
 
                         images.add(cursor.getString(cursor.getColumnIndex(uri)));
                         additionalFiles.add(path);
                     }while(cursor.moveToNext());
-                     }
+
+                }
                 if (cursor != null) {
                     cursor.close();
                 }

@@ -14,5 +14,6 @@
         android:numColumns="4"
         android:verticalSpacing="2dp"
         android:horizontalSpacing="2dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="#000000"/>
 </LinearLayout>
