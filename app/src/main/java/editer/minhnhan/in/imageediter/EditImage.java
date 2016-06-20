@@ -46,8 +46,11 @@ public class EditImage extends AppCompatActivity  {
                 return true;
             }
         });
+    }
 
-
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(EditImage.this,MainActivity.class));
+        super.onBackPressed();
     }
 }

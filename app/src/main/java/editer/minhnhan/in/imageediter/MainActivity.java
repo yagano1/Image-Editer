@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         Uri uri1 = Uri.parse("android.resource://editer.minhnhan.in.imageediter/drawable/camera");
         images.add(uri1.toString());
     }
+
 }
 
 
