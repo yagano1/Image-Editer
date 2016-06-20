@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="editer.minhnhan.in.imageediter.MainActivity">
-
+    tools:context="editer.minhnhan.in.imageediter.MainActivity"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
     <GridView
+        android:paddingTop="1dip"
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,4 +16,4 @@
         android:horizontalSpacing="2dp"
         android:gravity="center"
         />
-</RelativeLayout>
+</LinearLayout>

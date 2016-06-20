@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -36,16 +39,13 @@ public class MainActivity extends AppCompatActivity {
         return listOfAllImages;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         GridView gridView = (GridView) findViewById(R.id.gridview);
         images = getAllShownImagesPath();
         Uri uri = Uri.parse("android.resource://editer.minhnhan.in.imageediter/drawable/camera");
