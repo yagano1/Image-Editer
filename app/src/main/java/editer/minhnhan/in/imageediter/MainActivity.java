@@ -16,8 +16,6 @@ import android.widget.GridView;
 import android.widget.Spinner;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getListAlbum(path);
-        searchImageFromSpecificDirectory();
+        searchImageFromSpecificDirectory("storage");
         gridView = (GridView) findViewById(R.id.gridview);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,16 +57,12 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0)
                 {
-//                    getListImage(path);
-
-                    searchImageFromSpecificDirectory();
+                    searchImageFromSpecificDirectory("storage");
                     gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
                 }
                 else {
-//                    getListImage(path + "/" + dropdown.getItemAtPosition(position));
-//
-//                    gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
-                    searchImageFromSpecificDirectory();
+
+                    searchImageFromSpecificDirectory(dropdown.getItemAtPosition(position).toString());
                     gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
                 }
             }
@@ -102,33 +96,13 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
 
-   public void getListImage(String path)
-    {
-        images.clear();
-        File f = new File(path);
-        File[] files = f.listFiles();
-        Arrays.sort(files, new Comparator<File>(){
-            public int compare(File f1, File f2)
-            {
-                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-            } });
-        for (File inFile : files) {
-            if (inFile.isDirectory()) {
-            }
-            else {
-                images.add(inFile.getAbsolutePath());
-            }
-        }
-        Uri uri = Uri.parse("android.resource://editer.minhnhan.in.imageediter/drawable/camera");
-        images.add(uri.toString());
-    }
 
 
-    public void searchImageFromSpecificDirectory() {
+    public void searchImageFromSpecificDirectory(String folder) {
        images.clear();
         String path = null;
         String uri = MediaStore.Images.Media.DATA;
-        String condition = uri + " like '%/storage/%'";
+        String condition = uri + " like '%/" +folder+ "/%'";
         String[] projection = { uri, MediaStore.Images.Media.DATE_MODIFIED};
         String orderBy = MediaStore.Images.Media.DATE_TAKEN + " DESC";
         Vector additionalFiles = null;
@@ -136,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             if (additionalFiles == null) {
                 additionalFiles = new Vector<String>();
             }
-            Cursor cursor = managedQuery(
+            Cursor cursor =  getContentResolver().query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
                     condition, null, orderBy);
             if (cursor != null) {
