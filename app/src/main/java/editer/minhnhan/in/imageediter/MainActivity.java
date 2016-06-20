@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(null);
         getListAlbum(path);
         gridView = (GridView) findViewById(R.id.gridview);
-        album.add("a");
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0)
                 {
-                    getListAlbum(path);
+                    getListImage(path);
                     gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
                 }
                 else {
-                    getListAlbum(path + "/" + dropdown.getItemAtPosition(position));
+                    getListImage(path + "/" + dropdown.getItemAtPosition(position));
 
                     gridView.setAdapter(new ImageListAdapter(MainActivity.this, images));
                 }
@@ -72,6 +72,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void getListAlbum(String path) {
+        album.clear();
+        album.add("Pictures");
+        File f = new File(path);
+        File[] files = f.listFiles();
+        for (File inFile : files) {
+            if (inFile.isDirectory()) {
+                album.add(inFile.getName());
+            }
+        }
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -81,10 +94,9 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
 
-   public void getListAlbum(String path)
+   public void getListImage(String path)
     {
         images.clear();
-        ArrayList<String> listOfAllAlbum = new ArrayList<String>();
         File f = new File(path);
         File[] files = f.listFiles();
         for (File inFile : files) {
