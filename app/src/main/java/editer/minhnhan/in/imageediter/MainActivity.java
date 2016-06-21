@@ -21,7 +21,7 @@ import java.util.Vector;
 public class MainActivity extends AppCompatActivity {
     public ArrayList<String> images = new ArrayList<String>();;
     public ArrayList<String> album  = new ArrayList<String>();;
-    String path = Environment.getExternalStorageDirectory() + "/Pictures";
+    String path = Environment.getExternalStorageDirectory() +"/pictures";
     GridView gridView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getListAlbum(path);
-        searchImageFromSpecificDirectory("storage");
+        searchImageFromSpecificDirectory("InstaSize");
         gridView = (GridView) findViewById(R.id.gridview);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         final Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, album);
         dropdown.setAdapter(adapter);
@@ -59,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         searchImageFromSpecificDirectory("storage");
-                        break;
-                    case 1:
-                        searchImageFromSpecificDirectory("pictures");
                         break;
                     default:
                         searchImageFromSpecificDirectory(dropdown.getItemAtPosition(position).toString());
@@ -81,12 +76,11 @@ public class MainActivity extends AppCompatActivity {
     private void getListAlbum(String path) {
         album.clear();
         album.add("All");
-        album.add("Pictures");
         File f = new File(path);
-        File[] files = f.listFiles();
+        File[] files = new File(path).listFiles(new ImageFileFilter());
         for (File inFile : files) {
             if (inFile.isDirectory()) {
-                album.add(inFile.getName());
+                    album.add(inFile.getName());
             }
         }
     }
@@ -99,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(getIntent());
                 }
         }
-
-
 
     public void searchImageFromSpecificDirectory(String folder) {
        images.clear();
@@ -118,16 +110,12 @@ public class MainActivity extends AppCompatActivity {
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
                     condition, null, orderBy);
             if (cursor != null) {
-                boolean isDataPresent = cursor.moveToFirst();
-                if (isDataPresent) {
+                if (cursor.moveToFirst()) {
                     do {
-
                         images.add(cursor.getString(cursor.getColumnIndex(uri)));
                         additionalFiles.add(path);
                     }while(cursor.moveToNext());
-
-                }
-                if (cursor != null) {
+                }else if (cursor != null) {
                     cursor.close();
                 }
             }

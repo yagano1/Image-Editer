@@ -1,14 +1,18 @@
 package editer.minhnhan.in.imageediter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -23,8 +27,7 @@ public class EditImage extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_image);
         imageView = (ImageView) findViewById(R.id.imageView);
-       String imgSrc = getIntent().getStringExtra("img");
-
+        String imgSrc = getIntent().getStringExtra("img");
         Glide.with(EditImage.this)
                 .load(imgSrc)
                 .centerCrop()
@@ -34,7 +37,25 @@ public class EditImage extends AppCompatActivity  {
             private GestureDetector gestureDetector = new GestureDetector(EditImage.this, new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
-                    startActivity(new Intent(EditImage.this,MainActivity.class));
+                    final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(EditImage.this);
+                    myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            startActivity(new Intent(EditImage.this,MainActivity.class));
+                        }});
+                    myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+
+                        }});
+                    myAlertDialog.setTitle("Are you sure");
+                    myAlertDialog.show();
+
+
+
+
+
+
+
                     return super.onDoubleTap(e);
                 }
             });
