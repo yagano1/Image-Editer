@@ -18,7 +18,6 @@ public class ImageFileFilter implements FileFilter {
         }
         return false;
     }
-
     private boolean isImageFile(String filePath) {
         if (filePath.endsWith(".jpg") || filePath.endsWith(".png"))
         {

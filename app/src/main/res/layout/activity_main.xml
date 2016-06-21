@@ -16,5 +16,6 @@
         android:verticalSpacing="2dp"
         android:horizontalSpacing="2dp"
         android:gravity="center"
-        android:background="#000000"/>
+        android:background="#000000"
+        />
 </LinearLayout>

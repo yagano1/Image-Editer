@@ -74,4 +74,8 @@ public class EditImage extends AppCompatActivity  {
         startActivity(new Intent(EditImage.this,MainActivity.class));
         super.onBackPressed();
     }
+
+    public void penMethod(View view) {
+        startActivity(new Intent(EditImage.this,MainActivity.class));
+    }
 }

@@ -11,11 +11,21 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription=" "/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:background="#FF00FF"></LinearLayout>
+        android:background="#FF00FF"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pen"
+            android:onClick="penMethod"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Earse" />
+    </LinearLayout>
 </LinearLayout>
